@@ -11,6 +11,7 @@ import { GrowthTimeline } from '@/components/GrowthTimeline';
 import { AIReviewModal } from '@/components/AIReviewModal';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { RecruiterAnalytics } from '@/components/RecruiterAnalytics';
+import { ReferralCard } from '@/components/ReferralCard';
 import { motion } from 'framer-motion';
 
 export default function Dashboard() {
@@ -121,12 +122,20 @@ export default function Dashboard() {
           <GrowthTimeline />
         </div>
 
-        <div className="animate-fade-in" style={{ animationDelay: '0.2s', marginBottom: '6rem' }}>
+        <div className="animate-fade-in" style={{ animationDelay: '0.2s', marginBottom: '4rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
             <h2 style={{ fontSize: '2rem', fontWeight: 800, margin: 0 }}>Recruiter Insights</h2>
             <div style={{ height: '1px', flex: 1, backgroundColor: 'var(--border)' }}></div>
           </div>
           <RecruiterAnalytics />
+        </div>
+
+        <div className="animate-fade-in" style={{ animationDelay: '0.3s', marginBottom: '6rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem' }}>
+            <h2 style={{ fontSize: '2rem', fontWeight: 800, margin: 0 }}>Network Growth</h2>
+            <div style={{ height: '1px', flex: 1, backgroundColor: 'var(--border)' }}></div>
+          </div>
+          <ReferralCard />
         </div>
 
         <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
