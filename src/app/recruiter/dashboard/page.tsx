@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Candidate, CandidateCard } from '@/components/CandidateCard';
 import { useAccess, AccessMode } from '@/context/AccessContext';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const MOCK_CANDIDATES: Candidate[] = [
   {
