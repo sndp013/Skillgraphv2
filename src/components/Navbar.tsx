@@ -36,7 +36,7 @@ export default function Navbar() {
           {pathname === '/' && (
             <>
               <Link href="/login" className="btn-outline" style={{ fontSize: '0.9rem', fontWeight: 500, padding: '0.5rem 1rem' }}>Sign in</Link>
-              <Link href="/signup" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}>Join now</Link>
+              <Link href="/role-selection" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}>Join now</Link>
             </>
           )}
           

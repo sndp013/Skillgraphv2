@@ -345,7 +345,7 @@ export default function Home() {
               </div>
 
               <div style={{ marginTop: '4rem' }}>
-                <Link href="/signup" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
+                <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
                   Get My Score (Free)
                 </Link>
               </div>
@@ -466,7 +466,7 @@ export default function Home() {
           </div>
 
           <div style={{ textAlign: 'center', marginTop: '5rem' }}>
-            <Link href="/signup" className="btn-accent" style={{ padding: '1.25rem 3.5rem', fontSize: '1.15rem' }}>
+            <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 3.5rem', fontSize: '1.15rem' }}>
               Build My Profile Now
             </Link>
           </div>
@@ -495,7 +495,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'inline-block', position: 'relative' }}>
-              <Link href="/signup" className="btn-accent" style={{ padding: '1.5rem 4rem', fontSize: '1.25rem', boxShadow: '0 10px 40px var(--accent-glow)' }}>
+              <Link href="/role-selection" className="btn-accent" style={{ padding: '1.5rem 4rem', fontSize: '1.25rem', boxShadow: '0 10px 40px var(--accent-glow)' }}>
                 Create My Portfolio
               </Link>
               <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
