@@ -56,6 +56,7 @@ export type ScoreHistoryPoint = {
 export type UserProfile = {
   name: string;
   role: string;
+  userRole?: 'candidate' | 'recruiter';
   bio?: string; // Professional Summary (AI generated)
   suggestedRoles?: string[]; // AI suggested roles
   valueProp: string;

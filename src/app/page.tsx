@@ -60,11 +60,11 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-              <Link href="/signup" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem', boxShadow: '0 10px 30px var(--accent-glow)' }}>
-                Create My Portfolio (Free)
+              <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem', boxShadow: '0 10px 30px var(--accent-glow)' }}>
+                Create Portfolio (Candidate)
               </Link>
-              <Link href="/alex-designer" className="btn-outline" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
-                See Example Profile
+              <Link href="/role-selection" className="btn-outline" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
+                Hire Talent (Recruiter)
               </Link>
             </div>
           </motion.div>
