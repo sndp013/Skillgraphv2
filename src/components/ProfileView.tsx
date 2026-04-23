@@ -90,16 +90,37 @@ export function ProfileView({ username }: { username: string }) {
         <section style={{ padding: '8rem 1.5rem 4rem', textAlign: 'center', position: 'relative', zIndex: 1 }} className="animate-fade-in">
           <div className="container" style={{ maxWidth: '900px' }}>
             <div style={{ 
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'rgba(16, 185, 129, 0.1)', 
-              border: '1px solid rgba(16, 185, 129, 0.2)', borderRadius: '2rem', color: '#10b981', 
-              fontSize: '0.8rem', fontWeight: 800, marginBottom: '2.5rem', textTransform: 'uppercase', letterSpacing: '0.05em'
+              display: 'inline-flex', alignItems: 'center', gap: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap', justifyContent: 'center'
             }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', display: 'inline-block' }}></span>
-              Available for hire
+              {profile.isOpenToWork && (
+                <div style={{ 
+                  display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', background: 'rgba(59, 130, 246, 0.1)', 
+                  border: '1px solid rgba(59, 130, 246, 0.2)', borderRadius: '2rem', color: 'var(--accent)', 
+                  fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em'
+                }}>
+                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }}></span>
+                  Open for Opportunities
+                </div>
+              )}
+              
+              <div style={{ display: 'flex', gap: '1rem', color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: 700 }}>
+                {profile.location && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    {profile.location}
+                  </span>
+                )}
+                {profile.experienceLevel && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                    {profile.experienceLevel}
+                  </span>
+                )}
+              </div>
             </div>
             
             <h1 style={{ 
-              fontSize: 'clamp(3rem, 8vw, 4.5rem)', marginBottom: '1rem', fontWeight: 800, 
+              fontSize: 'clamp(3rem, 8vw, 4.5rem)', marginBottom: '0.5rem', fontWeight: 800, 
               background: profile.theme === 'midnight' ? 'linear-gradient(to bottom, #fff, #a1a1aa)' : 'none', 
               color: profile.theme === 'midnight' ? 'transparent' : 'var(--foreground)',
               WebkitBackgroundClip: profile.theme === 'midnight' ? 'text' : 'initial', 
@@ -108,8 +129,8 @@ export function ProfileView({ username }: { username: string }) {
             }}>
               {profile.name}
             </h1>
-            <h2 style={{ fontSize: 'clamp(1.25rem, 4vw, 1.75rem)', color: 'var(--foreground)', fontWeight: 500, marginBottom: '2rem', opacity: 0.8 }}>
-              {profile.role}
+            <h2 style={{ fontSize: 'clamp(1.25rem, 4vw, 1.75rem)', color: 'var(--accent)', fontWeight: 700, marginBottom: '2.5rem', opacity: 0.9 }}>
+              {profile.preferredRole || profile.role}
             </h2>
 
             {/* Badges Row */}

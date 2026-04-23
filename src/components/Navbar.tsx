@@ -24,16 +24,13 @@ export default function Navbar() {
         </Link>
         
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-          {pathname === '/dashboard' && (
-            <>
-              <Link href="/dashboard" style={{ color: 'var(--foreground)', fontSize: '0.9rem', fontWeight: 500 }}>Dashboard</Link>
-              <Link href="/jane-doe" style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 500 }}>Profile</Link>
-              <Link href="/login" style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-muted)' }}>Sign out</Link>
-            </>
-          )}
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <Link href="/dashboard" style={{ color: pathname === '/dashboard' ? 'var(--foreground)' : 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>User Dashboard</Link>
+            <Link href="/recruiter/dashboard" style={{ color: pathname === '/recruiter/dashboard' ? 'var(--foreground)' : 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>Recruiter Hub</Link>
+          </div>
 
-          {pathname !== '/' && pathname !== '/dashboard' && (
-            <Link href="/" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>Create Your Own SkillGraph</Link>
+          {pathname !== '/' && !pathname.includes('dashboard') && (
+            <Link href="/" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>Join SkillGraph</Link>
           )}
 
           {pathname === '/' && (

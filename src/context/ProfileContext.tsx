@@ -73,6 +73,10 @@ export type UserProfile = {
   scoreHistory: ScoreHistoryPoint[];
   theme: 'midnight' | 'aurora' | 'brutalist';
   analytics: Analytics;
+  isOpenToWork?: boolean;
+  experienceLevel?: 'Student' | 'Fresher' | '1-3 yrs' | '3-5 yrs' | '5+ yrs';
+  location?: string;
+  preferredRole?: string;
 };
 
 type ProfileContextType = {
@@ -85,6 +89,10 @@ type ProfileContextType = {
 export const defaultProfile: UserProfile = {
   name: "Alex Designer",
   role: "Product Engineer",
+  isOpenToWork: true,
+  experienceLevel: '1-3 yrs',
+  location: 'San Francisco, CA',
+  preferredRole: 'Senior Frontend Engineer',
   bio: "Full-stack product engineer specializing in bridging the gap between sophisticated design systems and scalable production code.",
   suggestedRoles: ["Frontend Engineer", "Product UI/UX Developer", "Technical Product Manager"],
   valueProp: "Building the gap between design and scalable code.",
