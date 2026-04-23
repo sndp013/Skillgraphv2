@@ -302,6 +302,107 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Hire Score Explanation Section */}
+      <section style={{ padding: '8rem 0', background: 'var(--background)', borderTop: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
+        {/* Subtle background glow */}
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', background: 'radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%)', zIndex: 0 }}></div>
+        
+        <div className="container" style={{ maxWidth: '1000px', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '5rem', alignItems: 'center' }}>
+            
+            {/* Left Column: The Concept */}
+            <div>
+              <span style={{ backgroundColor: 'rgba(250, 204, 21, 0.1)', color: '#facc15', padding: '0.5rem 1rem', borderRadius: '100px', fontSize: '0.8rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Gamified Growth</span>
+              <h2 style={{ fontSize: '3rem', fontWeight: 800, marginTop: '1.5rem', marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>
+                Your value, quantified.
+              </h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: '3rem' }}>
+                SkillGraph calculates your **Hire Readiness Score** by analyzing your real-world proof. Stop guessing your worth and start measuring it.
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                {[
+                  { label: 'Project Density', percent: 40, color: 'var(--accent)', desc: 'Variety and complexity of your work.' },
+                  { label: 'Visual Proof', percent: 30, color: 'var(--success)', desc: 'Verification via videos and screenshots.' },
+                  { label: 'Measurable Outcomes', percent: 30, color: '#facc15', desc: 'Real-world impact and performance metrics.' }
+                ].map((stat, i) => (
+                  <div key={i}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem', alignItems: 'center' }}>
+                      <h4 style={{ fontWeight: 800, fontSize: '1rem' }}>{stat.label}</h4>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 700, color: stat.color }}>{stat.percent}% Weight</span>
+                    </div>
+                    <div style={{ height: '8px', width: '100%', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '4px', overflow: 'hidden' }}>
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${stat.percent * 2.5}%` }}
+                        transition={{ duration: 1, delay: i * 0.2 }}
+                        style={{ height: '100%', backgroundColor: stat.color, borderRadius: '4px' }}
+                      />
+                    </div>
+                    <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>{stat.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ marginTop: '4rem' }}>
+                <Link href="/signup" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
+                  Get My Score (Free)
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Visual Gauge */}
+            <div style={{ position: 'relative' }}>
+              <div style={{ 
+                backgroundColor: 'var(--card-bg)', border: '2px solid var(--border)', borderRadius: '40px', 
+                padding: '3rem', textAlign: 'center', boxShadow: '0 40px 100px rgba(0,0,0,0.3)',
+                position: 'relative', overflow: 'hidden'
+              }}>
+                <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '2rem', letterSpacing: '0.1em' }}>Target Score for Big Tech</div>
+                
+                {/* Large Gauge Simulation */}
+                <div style={{ position: 'relative', width: '220px', height: '220px', margin: '0 auto 2.5rem' }}>
+                  <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="8" />
+                    <motion.circle 
+                      cx="50" cy="50" r="45" fill="none" stroke="var(--success)" strokeWidth="8" 
+                      strokeDasharray="282.7"
+                      initial={{ strokeDashoffset: 282.7 }}
+                      whileInView={{ strokeDashoffset: 282.7 * (1 - 0.85) }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ fontSize: '4rem', fontWeight: 900, color: 'white', lineHeight: 1 }}>85</div>
+                    <div style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--success)' }}>HIRE READY</div>
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)', padding: '1rem', borderRadius: '16px', fontSize: '0.9rem', fontWeight: 700 }}>
+                  🏆 Top 5% of all Frontend Developers
+                </div>
+              </div>
+
+              {/* Floating "Improve" Tip */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                style={{ 
+                  position: 'absolute', bottom: '-20px', right: '-20px', zIndex: 10,
+                  backgroundColor: 'var(--accent)', color: 'white', padding: '1rem',
+                  borderRadius: '20px', boxShadow: '0 10px 30px var(--accent-glow)',
+                  maxWidth: '180px', fontSize: '0.85rem', fontWeight: 700, border: '2px solid var(--background)'
+                }}
+              >
+                💡 Tip: Add a video demo to increase score by +12
+              </motion.div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       {/* Real Profiles Showcase */}
       <section style={{ padding: '8rem 0', background: 'var(--background)', borderTop: '1px solid var(--border)' }}>
         <div className="container" style={{ maxWidth: '1200px' }}>
