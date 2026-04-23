@@ -1,5 +1,10 @@
 :root {
-  /* Default Dark Mode Variables */
+  /* Common Variables */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius-default: 16px;
+  --radius-brutalist: 0px;
+
+  /* Default Midnight Theme (Original) */
   --background: #09090b;
   --foreground: #fafafa;
   --accent: #3b82f6;
@@ -10,19 +15,39 @@
   --card-hover: rgba(255, 255, 255, 0.06);
   --text-muted: #a1a1aa;
   --navbar-bg: rgba(9, 9, 11, 0.8);
+  --badge-bg: rgba(16, 185, 129, 0.1);
+  --badge-text: #10b981;
 }
 
-[data-theme="light"] {
+[data-theme="aurora"] {
   --background: #ffffff;
   --foreground: #09090b;
-  --accent: #2563eb;
-  --accent-glow: rgba(37, 99, 235, 0.1);
+  --accent: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.1);
   --success: #059669;
   --border: rgba(0, 0, 0, 0.08);
   --card-bg: #f9fafb;
   --card-hover: #f3f4f6;
   --text-muted: #4b5563;
   --navbar-bg: rgba(255, 255, 255, 0.8);
+  --badge-bg: rgba(99, 102, 241, 0.1);
+  --badge-text: #6366f1;
+}
+
+[data-theme="brutalist"] {
+  --background: #facc15;
+  --foreground: #000000;
+  --accent: #000000;
+  --accent-glow: rgba(0, 0, 0, 0.1);
+  --success: #000000;
+  --border: #000000;
+  --card-bg: #ffffff;
+  --card-hover: #ffffff;
+  --text-muted: #111827;
+  --navbar-bg: #facc15;
+  --badge-bg: #000000;
+  --badge-text: #ffffff;
+  --brutalist-shadow: 8px 8px 0px #000000;
 }
 
 * {
@@ -59,6 +84,7 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+  color: inherit;
 }
 
 /* Base utility classes for layouts */
@@ -80,16 +106,29 @@ button {
 .card {
   background-color: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-default);
   padding: 1.5rem;
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
 
 .card:hover {
   background-color: var(--card-hover);
   border-color: var(--accent);
   box-shadow: 0 8px 32px -8px var(--accent-glow);
+}
+
+/* Brutalist Special Overrides */
+[data-theme="brutalist"] .card {
+  border: 4px solid var(--border) !important;
+  border-radius: var(--radius-brutalist) !important;
+  box-shadow: var(--brutalist-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+[data-theme="brutalist"] .card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 12px 12px 0px var(--border) !important;
 }
 
 .spotlight {
@@ -142,13 +181,19 @@ button {
   color: white;
   font-weight: 600;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius-default);
+  transition: var(--transition);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   text-align: center;
+}
+
+[data-theme="brutalist"] .btn-accent {
+  border-radius: var(--radius-brutalist);
+  border: 3px solid black;
+  box-shadow: 4px 4px 0px black;
 }
 
 .btn-accent:hover {

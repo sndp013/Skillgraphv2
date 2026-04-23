@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 export type Project = {
@@ -6,11 +8,15 @@ export type Project = {
   problem: string;
   solution: string;
   outcome: string;
+  metrics?: string;
   techStack: string[];
-  mediaUrl: string; // URL from mock upload
+  mediaUrl: string; // URL from mock upload (After)
+  action?: string; // What the user built/did
+  beforeMediaUrl?: string; // URL for Before/After comparison
   externalLink?: string;
   demoLink?: string;
   codeLink?: string;
+  enhancedSolution?: string; // AI enhanced description
 };
 
 export type TimelineEvent = {
@@ -23,28 +29,65 @@ export type TimelineEvent = {
 export type UserProfile = {
   name: string;
   role: string;
+  bio?: string; // Professional Summary (AI generated)
+  suggestedRoles?: string[]; // AI suggested roles
   valueProp: string;
   score: number;
+  scoreBreakdown: {
+    projects: number;
+    proof: number;
+    outcome: number;
+    skills: number;
+  };
   projects: Project[];
   timeline: TimelineEvent[];
   skills: string[];
+  badges: string[];
+  scoreHistory: any[];
+  theme: 'midnight' | 'aurora' | 'brutalist';
+  analytics: any;
 };
 
 type ProfileContextType = {
   profile: UserProfile;
   setProfile: React.Dispatch<React.SetStateAction<UserProfile>>;
   addProject: (project: Project) => void;
-  updateScore: () => void;
+  updateProfileData: (data: Partial<UserProfile>) => void;
 };
 
-const defaultProfile: UserProfile = {
-  name: "Alex Designer", // Mock default
+export const defaultProfile: UserProfile = {
+  name: "Alex Designer",
   role: "Product Engineer",
+  bio: "Full-stack product engineer specializing in bridging the gap between sophisticated design systems and scalable production code.",
+  suggestedRoles: ["Frontend Engineer", "Product UI/UX Developer", "Technical Product Manager"],
   valueProp: "Building the gap between design and scalable code.",
-  score: 10,
-  projects: [],
+  score: 33,
+  scoreBreakdown: { projects: 10, proof: 10, outcome: 10, skills: 3 },
+  projects: [
+    {
+      id: "test-1",
+      title: "Optimized Checkout Flow",
+      problem: "Checkout abandonment rate was 65% due to long forms and poor mobile UX.",
+      solution: "Implemented one-page checkout, Apple Pay/Google Pay integration, and predictive address entry.",
+      outcome: "Reduced abandonment and increased overall conversion rate.",
+      metrics: "+42% Conversion",
+      techStack: ["Next.js", "Stripe", "Framer Motion"],
+      mediaUrl: "https://images.unsplash.com/photo-1556740734-75474a702e8d?q=80&w=2070&auto=format&fit=crop"
+    }
+  ],
   timeline: [],
-  skills: [],
+  skills: ["Next.js", "Stripe", "Framer Motion"],
+  badges: ["First Project Added", "Verified Proof"],
+  scoreHistory: [],
+  theme: 'midnight',
+  analytics: {
+    totalViews: 1284,
+    uniqueVisitors: 412,
+    avgEngagementTime: "2m 45s",
+    projectClicks: {},
+    recentVisitors: [],
+    viewHistory: []
+  }
 };
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -55,43 +98,35 @@ export function ProfileProvider({ children }: { children: ReactNode }) {
   const addProject = (project: Project) => {
     setProfile((prev) => {
       const newProjects = [...prev.projects, project];
-      // Gather skills
       const newSkills = Array.from(new Set([...prev.skills, ...project.techStack]));
       
-      // Auto-add timeline event
-      const newTimelineEvent: TimelineEvent = {
-        id: Date.now().toString(),
-        timestamp: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
-        action: `Built ${project.title}`,
-        outcome: project.outcome,
-      };
-
-      const newTimeline = [newTimelineEvent, ...prev.timeline];
-
-      // Scoring Rules Logic
-      let newScore = 0;
-      if (prev.name && prev.role) newScore += 10; // Base completion
-      newScore += Math.min(60, newProjects.length * 20); // +20 per project (max 60)
-      if (newProjects.some(p => p.mediaUrl)) newScore += 10; // +10 for media proof
-      if (newProjects.some(p => p.outcome && p.outcome.trim().length > 0)) newScore += 10; // +10 for outcome
-      if (newSkills.length >= 5) newScore += 10; // +10 for skill diversity
-      
-      newScore = Math.min(100, newScore);
+      const projectsScore = Math.min(40, newProjects.length * 10);
+      const outcomeScore = Math.min(30, newProjects.filter(p => p.outcome && p.outcome.length > 10).length * 10);
+      const proofScore = Math.min(20, newProjects.filter(p => p.mediaUrl).length * 10);
+      const skillsScore = Math.min(10, newSkills.length);
+      const totalScore = projectsScore + outcomeScore + proofScore + skillsScore;
 
       return {
         ...prev,
         projects: newProjects,
         skills: newSkills,
-        timeline: newTimeline,
-        score: newScore,
+        score: totalScore,
+        scoreBreakdown: {
+          projects: projectsScore,
+          proof: proofScore,
+          outcome: outcomeScore,
+          skills: skillsScore
+        }
       };
     });
   };
 
-  const updateScore = () => { /* logic inside addProject handles it mostly */ };
+  const updateProfileData = (data: Partial<UserProfile>) => {
+    setProfile(prev => ({ ...prev, ...data }));
+  };
 
   return (
-    <ProfileContext.Provider value={{ profile, setProfile, addProject, updateScore }}>
+    <ProfileContext.Provider value={{ profile, setProfile, addProject, updateProfileData }}>
       {children}
     </ProfileContext.Provider>
   );

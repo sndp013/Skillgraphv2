@@ -17,6 +17,28 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "SkillGraph | Proof-based Portfolios",
   description: "Create a powerful public portfolio in under 3 minutes that showcases your real work, projects, and outcomes.",
+  openGraph: {
+    title: "SkillGraph | Proof-based Portfolios",
+    description: "The traditional resume is dead. Build your proof and get hired fast with SkillGraph.",
+    url: "https://skillgraph.com",
+    siteName: "SkillGraph",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SkillGraph Portfolio Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SkillGraph | Proof-based Portfolios",
+    description: "Build your proof and get hired fast with SkillGraph.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
