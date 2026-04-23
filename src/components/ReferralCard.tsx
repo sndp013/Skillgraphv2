@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useReferral } from '@/context/ReferralContext';
 
 export function ReferralCard() {
-  const { referralCount, referralLink, isPremiumUnlocked, copyReferralLink, shareToWhatsApp } = useReferral();
+  const { referralCount, referralLink, isPremiumUnlocked, addReferral, copyReferralLink, shareToWhatsApp } = useReferral();
   const progress = Math.min((referralCount / 3) * 100, 100);
 
   return (
