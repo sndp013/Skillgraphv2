@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useProfile } from '@/context/ProfileContext';
+import { useProfile, Project, UserProfile } from '@/context/ProfileContext';
 import { HireScoreGauge } from '@/components/HireScoreGauge';
 import { ProjectCard } from '@/components/ProjectCard';
 import { useRouter } from 'next/navigation';
@@ -9,12 +9,11 @@ import Link from 'next/link';
 import { ShareModal } from '@/components/ShareModal';
 import { GrowthTimeline } from '@/components/GrowthTimeline';
 import { AIReviewModal } from '@/components/AIReviewModal';
-import { Project } from '@/context/ProfileContext';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { RecruiterAnalytics } from '@/components/RecruiterAnalytics';
 
 export default function Dashboard() {
-  const { profile } = useProfile();
+  const { profile, setProfile } = useProfile();
   const router = useRouter();
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
   const [selectedReviewProject, setSelectedReviewProject] = React.useState<Project | null>(null);
@@ -24,6 +23,15 @@ export default function Dashboard() {
   const handleOpenReview = (project: Project) => {
     setSelectedReviewProject(project);
     setIsAIReviewOpen(true);
+  };
+
+  const handleAIAccept = (enhancedData: Partial<UserProfile>, enhancedProject: Project) => {
+    setProfile(prev => ({
+      ...prev,
+      ...enhancedData,
+      projects: prev.projects.map(p => p.id === enhancedProject.id ? enhancedProject : p)
+    }));
+    setIsAIReviewOpen(false);
   };
 
   return (
@@ -104,11 +112,16 @@ export default function Dashboard() {
         onClose={() => setIsShareModalOpen(false)} 
       />
 
-      <AIReviewModal 
-        isOpen={isAIReviewOpen} 
-        onClose={() => setIsAIReviewOpen(false)} 
-        project={selectedReviewProject} 
-      />
+      {selectedReviewProject && (
+        <AIReviewModal 
+          isOpen={isAIReviewOpen} 
+          onClose={() => setIsAIReviewOpen(false)} 
+          onAccept={handleAIAccept}
+          baseProject={selectedReviewProject}
+          baseName={profile.name}
+          baseRole={profile.role}
+        />
+      )}
 
       <ThemeSwitcher 
         isOpen={isBrandingModalOpen} 

@@ -26,6 +26,33 @@ export type TimelineEvent = {
   outcome: string;
 };
 
+export type AnalyticsPoint = {
+  date: string;
+  views: number;
+};
+
+export type Analytics = {
+  totalViews: number;
+  uniqueVisitors: number;
+  avgEngagementTime: string;
+  projectClicks: Record<string, number>;
+  recentVisitors: {
+    id: string;
+    role: string;
+    company: string;
+    time: string;
+    avatar: string;
+  }[];
+  viewHistory: AnalyticsPoint[];
+};
+
+export type ScoreHistoryPoint = {
+  month: string;
+  total: number;
+  proof: number;
+  outcome: number;
+};
+
 export type UserProfile = {
   name: string;
   role: string;
@@ -43,9 +70,9 @@ export type UserProfile = {
   timeline: TimelineEvent[];
   skills: string[];
   badges: string[];
-  scoreHistory: any[];
+  scoreHistory: ScoreHistoryPoint[];
   theme: 'midnight' | 'aurora' | 'brutalist';
-  analytics: any;
+  analytics: Analytics;
 };
 
 type ProfileContextType = {
