@@ -302,6 +302,76 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Real Profiles Showcase */}
+      <section style={{ padding: '8rem 0', background: 'var(--background)', borderTop: '1px solid var(--border)' }}>
+        <div className="container" style={{ maxWidth: '1200px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
+            <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Trusted by elite builders.</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>From startups to Big Tech, SkillGraph is the new way to discover talent.</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2.5rem' }}>
+            {[
+              { 
+                name: 'Elena Rodriguez', role: 'UI/UX Lead', score: 94, 
+                img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=400',
+                project: 'Neumorphic Design System', avatar: 'https://i.pravatar.cc/150?img=32'
+              },
+              { 
+                name: 'Marcus Thorne', role: 'Backend Engineer', score: 88, 
+                img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=400',
+                project: 'Distributed Ledger Core', avatar: 'https://i.pravatar.cc/150?img=11'
+              },
+              { 
+                name: 'Sarah Jenkins', role: 'Frontend Architect', score: 91, 
+                img: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=400',
+                project: 'Interactive Data Hub', avatar: 'https://i.pravatar.cc/150?img=44'
+              }
+            ].map((profile, idx) => (
+              <motion.div 
+                key={idx}
+                whileHover={{ y: -10 }}
+                style={{ 
+                  backgroundColor: 'var(--card-bg)', border: '1px solid var(--border)', 
+                  borderRadius: '32px', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.2)'
+                }}
+              >
+                <div style={{ height: '180px', background: `url(${profile.img}) center/cover` }}></div>
+                <div style={{ padding: '2rem', position: 'relative' }}>
+                  <div style={{ 
+                    position: 'absolute', top: '-30px', right: '2rem',
+                    width: '60px', height: '60px', borderRadius: '50%', border: '4px solid var(--card-bg)',
+                    background: `url(${profile.avatar}) center/cover`
+                  }}></div>
+                  
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <h3 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0 }}>{profile.name}</h3>
+                    <p style={{ color: 'var(--accent)', fontSize: '0.85rem', fontWeight: 700, margin: 0 }}>{profile.role}</p>
+                  </div>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '16px', border: '1px solid var(--border)' }}>
+                    <div>
+                      <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--success)' }}>{profile.score}</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase' }}>Hire Score</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'white' }}>{profile.project}</div>
+                      <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase' }}>Top Project</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '5rem' }}>
+            <Link href="/signup" className="btn-accent" style={{ padding: '1.25rem 3.5rem', fontSize: '1.15rem' }}>
+              Build My Profile Now
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section style={{ padding: '8rem 1.5rem', textAlign: 'center' }}>
         <div className="container" style={{ maxWidth: '700px' }}>
