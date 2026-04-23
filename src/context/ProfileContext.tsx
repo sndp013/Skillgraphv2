@@ -105,15 +105,31 @@ export const defaultProfile: UserProfile = {
   timeline: [],
   skills: ["Next.js", "Stripe", "Framer Motion"],
   badges: ["First Project Added", "Verified Proof"],
-  scoreHistory: [],
+  scoreHistory: [
+    { month: "Jan", total: 10, proof: 0, outcome: 0 },
+    { month: "Feb", total: 25, proof: 5, outcome: 5 },
+    { month: "Mar", total: 33, proof: 10, outcome: 10 },
+  ],
   theme: 'midnight',
   analytics: {
     totalViews: 1284,
     uniqueVisitors: 412,
     avgEngagementTime: "2m 45s",
-    projectClicks: {},
-    recentVisitors: [],
-    viewHistory: []
+    projectClicks: { "test-1": 342 },
+    recentVisitors: [
+      { id: 'v1', role: 'Engineering Manager', company: 'Google', time: '2h ago', avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&q=80&w=100' },
+      { id: 'v2', role: 'Technical Recruiter', company: 'Meta', time: '5h ago', avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=100' },
+      { id: 'v3', role: 'Talent Acquisition', company: 'Amazon', time: '1d ago', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=100' },
+    ],
+    viewHistory: [
+      { date: 'Apr 10', views: 45 },
+      { date: 'Apr 12', views: 65 },
+      { date: 'Apr 14', views: 42 },
+      { date: 'Apr 16', views: 88 },
+      { date: 'Apr 18', views: 120 },
+      { date: 'Apr 20', views: 95 },
+      { date: 'Apr 22', views: 154 },
+    ]
   }
 };
 
