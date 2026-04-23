@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Candidate, CandidateCard } from '@/components/CandidateCard';
+import { useAccess, AccessMode } from '@/context/AccessContext';
+import { useRouter } from 'next/navigation';
 
 const MOCK_CANDIDATES: Candidate[] = [
   {
@@ -90,7 +92,7 @@ const MOCK_CANDIDATES: Candidate[] = [
     name: 'Tom Bradley',
     role: 'Mobile Developer',
     score: 55,
-    skills: ['React Native', 'Swift', 'Kotlin', 'GraphQL'],
+    skills: ['React RN', 'Swift', 'Kotlin', 'GraphQL'],
     topProject: {
       title: 'Fitness Tracking App',
       thumbnail: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&q=80&w=400'
@@ -104,11 +106,29 @@ const MOCK_CANDIDATES: Candidate[] = [
 ];
 
 export default function RecruiterDashboard() {
-  const [activeTab, setActiveTab] = useState<'discovery' | 'saved'>('discovery');
+  const { accessMode, setAccessMode, approvedEmails, waitlist, approveWaitlistEntry } = useAccess();
+  const router = useRouter();
+  
+  const [activeTab, setActiveTab] = useState<'discovery' | 'saved' | 'admin'>('discovery');
   const [searchQuery, setSearchQuery] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [onlyVerified, setOnlyVerified] = useState(false);
   const [savedIds, setSavedIds] = useState<string[]>([]);
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
+
+  // Simplified auth simulation for prototype
+  const [simulatedEmail, setSimulatedEmail] = useState('');
+  const isApproved = useMemo(() => {
+    if (accessMode === 'OPEN') return true;
+    return approvedEmails.includes(simulatedEmail);
+  }, [accessMode, approvedEmails, simulatedEmail]);
+
+  useEffect(() => {
+    if (accessMode !== 'OPEN' && !isApproved && activeTab !== 'admin') {
+      // In a real app, this would be a middleware redirect
+      // For prototype, we'll show an "Access Required" overlay
+    }
+  }, [accessMode, isApproved, activeTab]);
 
   const toggleSave = (id: string) => {
     setSavedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
@@ -131,6 +151,132 @@ export default function RecruiterDashboard() {
   return (
     <main className="spotlight" style={{ minHeight: '100vh', padding: '4rem 0' }}>
       <div className="container" style={{ maxWidth: '1200px' }}>
+        
+        {/* Access Restricted Overlay */}
+        {accessMode !== 'OPEN' && !isApproved && (
+           <div style={{ 
+             position: 'fixed', inset: 0, zIndex: 1000, 
+             backgroundColor: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(20px)',
+             display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem'
+           }}>
+             <div className="card" style={{ maxWidth: '450px', padding: '3rem', textAlign: 'center' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🔒</div>
+                <h2 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '1rem' }}>Restricted Access</h2>
+                <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+                  {accessMode === 'INVITE_ONLY' 
+                    ? "SkillGraph Recruiter Hub is currently Invite Only. Please log in with an approved email or join the waitlist."
+                    : "Access is limited to approved partners. Please join the waitlist to get started."}
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <input 
+                    type="email" 
+                    placeholder="Enter your approved email..."
+                    value={simulatedEmail}
+                    onChange={e => setSimulatedEmail(e.target.value)}
+                    style={{ width: '100%', padding: '1rem', borderRadius: '12px', border: '1px solid var(--border)', backgroundColor: 'rgba(255,255,255,0.05)', color: 'white' }}
+                  />
+                  <Link href="/recruiter/waitlist" className="btn-accent" style={{ padding: '1rem' }}>Join Waitlist</Link>
+                  <button onClick={() => setIsAdminPanelOpen(true)} style={{ color: 'var(--text-muted)', background: 'none', border: 'none', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline' }}>Admin Controls (Testing Only)</button>
+                </div>
+             </div>
+           </div>
+        )}
+
+        {/* Admin Floating Control (Prototype Only) */}
+        <button 
+          onClick={() => setIsAdminPanelOpen(true)}
+          style={{ 
+            position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 200,
+            width: '56px', height: '56px', borderRadius: '50%', backgroundColor: 'var(--foreground)',
+            color: 'var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.3)', border: 'none', cursor: 'pointer'
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+
+        {/* Admin Panel Modal */}
+        <AnimatePresence>
+          {isAdminPanelOpen && (
+            <div style={{ position: 'fixed', inset: 0, zIndex: 1100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setIsAdminPanelOpen(false)}
+                style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.8)' }}
+              />
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+                className="card"
+                style={{ width: '100%', maxWidth: '800px', position: 'relative', zIndex: 1, maxHeight: '80vh', overflowY: 'auto', padding: '3rem' }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                  <h2 style={{ fontSize: '2rem', fontWeight: 800 }}>Admin Controls</h2>
+                  <button onClick={() => setIsAdminPanelOpen(false)} className="btn-outline" style={{ padding: '0.5rem 1rem' }}>Close</button>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }}>
+                  {/* Mode Switcher */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800 }}>Access Mode</h3>
+                    {(['OPEN', 'INVITE_ONLY', 'WAITLIST'] as AccessMode[]).map(mode => (
+                      <button 
+                        key={mode}
+                        onClick={() => setAccessMode(mode)}
+                        style={{ 
+                          padding: '1.25rem', borderRadius: '16px', textAlign: 'left',
+                          border: accessMode === mode ? '2px solid var(--accent)' : '1px solid var(--border)',
+                          backgroundColor: accessMode === mode ? 'rgba(59, 130, 246, 0.1)' : 'transparent',
+                          color: accessMode === mode ? 'white' : 'var(--text-muted)',
+                          cursor: 'pointer', transition: 'all 0.2s'
+                        }}
+                      >
+                        <div style={{ fontWeight: 800, fontSize: '1rem', marginBottom: '0.25rem' }}>{mode.replace('_', ' ')}</div>
+                        <div style={{ fontSize: '0.8rem', opacity: 0.7 }}>
+                          {mode === 'OPEN' && 'Anyone can access immediately.'}
+                          {mode === 'INVITE_ONLY' && 'Only pre-approved emails can enter.'}
+                          {mode === 'WAITLIST' && 'All new users go to waitlist first.'}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Waitlist Management */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800 }}>Pending Waitlist ({waitlist.filter(e => e.status === 'PENDING').length})</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      {waitlist.length === 0 ? (
+                        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>No entries found.</p>
+                      ) : (
+                        waitlist.map(entry => (
+                          <div key={entry.id} style={{ 
+                            padding: '1rem', borderRadius: '12px', border: '1px solid var(--border)', 
+                            backgroundColor: 'rgba(255,255,255,0.03)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+                          }}>
+                            <div>
+                              <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>{entry.name}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--accent)' }}>{entry.company} • {entry.role}</div>
+                              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{entry.email}</div>
+                            </div>
+                            {entry.status === 'PENDING' ? (
+                              <button 
+                                onClick={() => approveWaitlistEntry(entry.id)}
+                                style={{ backgroundColor: 'var(--success)', color: 'white', border: 'none', padding: '0.5rem 0.75rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 800, cursor: 'pointer' }}
+                              >
+                                Approve
+                              </button>
+                            ) : (
+                              <span style={{ color: 'var(--success)', fontSize: '0.75rem', fontWeight: 800 }}>Approved</span>
+                            )}
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
         
         {/* Header Area */}
         <div style={{ marginBottom: '4rem' }} className="animate-fade-in">
