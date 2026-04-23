@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ThemeToggle } from './ThemeToggle';
 import { useProfile } from '@/context/ProfileContext';
 
 export default function Navbar() {
