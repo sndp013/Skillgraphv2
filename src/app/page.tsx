@@ -473,32 +473,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section style={{ padding: '8rem 1.5rem', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: '700px' }}>
-          <h2 style={{ fontSize: '3.5rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Ready to stand out?</h2>
-          <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '3.5rem' }}>Join the next generation of builders who hire with proof.</p>
-          <Link href="/signup" className="btn-accent" style={{ padding: '1.5rem 4rem', fontSize: '1.25rem' }}>
-            Start Building My Proof
-          </Link>
+      {/* Final Conversion Section */}
+      <section style={{ padding: '10rem 1.5rem', background: 'var(--card-bg)', borderTop: '1px solid var(--border)', position: 'relative', overflow: 'hidden' }}>
+        {/* Decorative elements */}
+        <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '300px', height: '300px', background: 'var(--accent)', filter: 'blur(150px)', opacity: 0.1, pointerEvents: 'none' }}></div>
+        <div style={{ position: 'absolute', bottom: '-100px', left: '-100px', width: '300px', height: '300px', background: 'var(--success)', filter: 'blur(150px)', opacity: 0.1, pointerEvents: 'none' }}></div>
+
+        <div className="container" style={{ maxWidth: '800px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 style={{ fontSize: 'clamp(2.5rem, 8vw, 4rem)', fontWeight: 900, marginBottom: '2rem', letterSpacing: '-0.05em', lineHeight: 1.1 }}>
+              Stop sending resumes.<br/>
+              <span style={{ color: 'var(--accent)' }}>Start showing proof.</span>
+            </h2>
+            
+            <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', marginBottom: '4rem', maxWidth: '500px', margin: '0 auto 4rem' }}>
+              Join the next generation of builders getting hired based on what they've actually built.
+            </p>
+
+            <div style={{ display: 'inline-block', position: 'relative' }}>
+              <Link href="/signup" className="btn-accent" style={{ padding: '1.5rem 4rem', fontSize: '1.25rem', boxShadow: '0 10px 40px var(--accent-glow)' }}>
+                Create My Portfolio
+              </Link>
+              <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--success)' }}></div>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-muted)' }}>
+                  Free for early users
+                </span>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ padding: '4rem 1.5rem', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
-        <div className="container" style={{ color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
-          &copy; 2026 SkillGraph. All rights reserved.
+      <footer style={{ padding: '5rem 1.5rem', background: 'var(--background)', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+        <div className="container">
+          <div style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: '2rem' }}>SkillGraph</div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', marginBottom: '3rem', color: 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
+            <Link href="/recruiter/dashboard" style={{ color: 'inherit', textDecoration: 'none' }}>Recruiter Hub</Link>
+            <Link href="/about" style={{ color: 'inherit', textDecoration: 'none' }}>About</Link>
+            <Link href="/twitter" style={{ color: 'inherit', textDecoration: 'none' }}>Twitter</Link>
+          </div>
+          <div style={{ color: 'var(--text-muted)', fontSize: '0.85rem', opacity: 0.6 }}>
+            &copy; 2026 SkillGraph. For builders, by builders.
+          </div>
         </div>
       </footer>
-
-      <style jsx>{`
-        @media (max-width: 968px) {
-          .hide-on-mobile { display: none; }
-          .container { grid-template-columns: 1fr !important; text-align: center; }
-          p { margin: 0 auto 3.5rem !important; }
-          div[style*="display: flex"] { justify-content: center; }
-        }
-      `}</style>
     </main>
   );
 }
