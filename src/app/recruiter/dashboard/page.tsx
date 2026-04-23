@@ -103,6 +103,22 @@ const MOCK_CANDIDATES: Candidate[] = [
     isOpenToWork: true,
     experienceLevel: '1-3 yrs',
     location: 'Remote'
+  },
+  {
+    id: 'c7',
+    name: 'John Minimalist',
+    role: 'Frontend Developer',
+    score: 42,
+    skills: ['HTML', 'CSS'],
+    topProject: {
+      title: 'Static Page',
+      thumbnail: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=400'
+    },
+    hasVerifiedProof: false,
+    email: 'john.m@example.com',
+    isOpenToWork: true,
+    experienceLevel: 'Student',
+    location: 'Remote'
   }
 ];
 
@@ -114,6 +130,7 @@ export default function RecruiterDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [onlyVerified, setOnlyVerified] = useState(false);
+  const [showQualifiedOnly, setShowQualifiedOnly] = useState(true);
   const [savedIds, setSavedIds] = useState<string[]>([]);
   const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
 
@@ -126,8 +143,7 @@ export default function RecruiterDashboard() {
 
   useEffect(() => {
     if (accessMode !== 'OPEN' && !isApproved && activeTab !== 'admin') {
-      // In a real app, this would be a middleware redirect
-      // For prototype, we'll show an "Access Required" overlay
+      // Access Required logic handled via overlay
     }
   }, [accessMode, isApproved, activeTab]);
 
@@ -136,18 +152,31 @@ export default function RecruiterDashboard() {
   };
 
   const filteredCandidates = useMemo(() => {
-    let base = activeTab === 'discovery' ? MOCK_CANDIDATES : MOCK_CANDIDATES.filter(c => savedIds.includes(c.id));
+    let base = activeTab === 'discovery' ? [...MOCK_CANDIDATES] : MOCK_CANDIDATES.filter(c => savedIds.includes(c.id));
     
-    return base.filter(c => {
+    // Filtering
+    let filtered = base.filter(c => {
       const matchesSearch = c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                            c.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
                            c.skills.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+      const isQualified = c.score >= 60 || c.hasVerifiedProof;
+      const matchesQualification = showQualifiedOnly ? isQualified : true;
       const matchesScore = c.score >= minScore;
       const matchesVerified = onlyVerified ? c.hasVerifiedProof : true;
       
-      return matchesSearch && matchesScore && matchesVerified;
+      return matchesSearch && matchesQualification && matchesScore && matchesVerified;
     });
-  }, [activeTab, searchQuery, minScore, onlyVerified, savedIds]);
+
+    // Sorting
+    return filtered.sort((a, b) => {
+      // Primary Sort: Score (Desc)
+      if (b.score !== a.score) return b.score - a.score;
+      // Secondary: Verified first
+      if (b.hasVerifiedProof !== a.hasVerifiedProof) return b.hasVerifiedProof ? 1 : -1;
+      return 0;
+    });
+  }, [activeTab, searchQuery, minScore, onlyVerified, showQualifiedOnly, savedIds]);
 
   return (
     <main className="spotlight" style={{ minHeight: '100vh', padding: '4rem 0' }}>
@@ -359,7 +388,19 @@ export default function RecruiterDashboard() {
                 }}
               >
                 {onlyVerified && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>}
-                Verified Proof Only
+                Verified Proof
+              </button>
+
+              <button 
+                onClick={() => setShowQualifiedOnly(!showQualifiedOnly)}
+                style={{ 
+                  padding: '0.8rem 1.25rem', borderRadius: '14px', border: '1px solid var(--border)',
+                  backgroundColor: showQualifiedOnly ? 'var(--accent)' : 'transparent',
+                  color: showQualifiedOnly ? 'white' : 'var(--text-muted)',
+                  fontWeight: 700, cursor: 'pointer', transition: 'all 0.3s'
+                }}
+              >
+                {showQualifiedOnly ? 'Show Qualified Only (ON)' : 'Show All Candidates'}
               </button>
             </div>
           </div>

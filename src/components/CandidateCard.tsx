@@ -28,21 +28,26 @@ interface CandidateCardProps {
 }
 
 export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCardProps) {
+  const isHireReady = candidate.score >= 60;
+  const isTopTalent = candidate.score >= 80;
+  const isLowQuality = candidate.score < 60 && !candidate.hasVerifiedProof;
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -5 }}
+      animate={{ opacity: isLowQuality ? 0.6 : 1, y: 0 }}
+      whileHover={{ y: -5, opacity: 1 }}
       style={{ 
         backgroundColor: 'var(--card-bg)', 
-        border: '1px solid var(--border)', 
+        border: isLowQuality ? '1px dashed var(--border)' : '1px solid var(--border)', 
         borderRadius: '24px', 
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',
         boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-        position: 'relative'
+        position: 'relative',
+        transition: 'all 0.3s ease'
       }}
     >
       {/* "Open to Work" Badge */}
@@ -57,12 +62,24 @@ export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCar
         </div>
       )}
 
+      {/* Low Proof Profile Tag */}
+      {isLowQuality && (
+        <div style={{ 
+          position: 'absolute', top: '1rem', right: '1rem', zIndex: 10,
+          backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', 
+          padding: '0.3rem 0.75rem', borderRadius: '8px', fontSize: '0.6rem', fontWeight: 900,
+          textTransform: 'uppercase', border: '1px solid rgba(239, 68, 68, 0.2)'
+        }}>
+          Low Proof Profile
+        </div>
+      )}
+
       {/* Project Thumbnail Header */}
       <div style={{ position: 'relative', height: '160px', overflow: 'hidden' }}>
         <img 
           src={candidate.topProject.thumbnail} 
           alt={candidate.topProject.title} 
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+          style={{ width: '100%', height: '100%', objectFit: 'cover', filter: isLowQuality ? 'grayscale(0.5)' : 'none' }} 
         />
         <div style={{ 
           position: 'absolute', bottom: 0, left: 0, right: 0, 
@@ -71,18 +88,6 @@ export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCar
         }}>
           Top Project: {candidate.topProject.title}
         </div>
-        {candidate.hasVerifiedProof && (
-          <div style={{ 
-            position: 'absolute', top: '1rem', right: '1rem', 
-            backgroundColor: 'var(--success)', color: 'white', 
-            padding: '0.3rem 0.6rem', borderRadius: '6px', fontSize: '0.65rem', fontWeight: 900,
-            textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.3rem',
-            boxShadow: '0 4px 10px rgba(16, 185, 129, 0.3)', border: '2px solid var(--card-bg)'
-          }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            Verified Proof
-          </div>
-        )}
       </div>
 
       {/* Candidate Info */}
@@ -95,7 +100,7 @@ export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCar
           <div style={{ textAlign: 'right' }}>
             <div style={{ 
               fontSize: '1.25rem', fontWeight: 900, 
-              color: candidate.score >= 70 ? 'var(--success)' : 'var(--accent)'
+              color: isTopTalent ? '#facc15' : isHireReady ? 'var(--success)' : 'var(--accent)'
             }}>
               {candidate.score}
             </div>
@@ -103,14 +108,32 @@ export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCar
           </div>
         </div>
 
-        {/* New Metadata: Exp & Location */}
+        {/* Quality Badges */}
+        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+          {isTopTalent && (
+            <span style={{ backgroundColor: 'rgba(250, 204, 21, 0.1)', color: '#facc15', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.6rem', fontWeight: 900, border: '1px solid rgba(250, 204, 21, 0.2)' }}>
+              TOP TALENT
+            </span>
+          )}
+          {isHireReady && !isTopTalent && (
+            <span style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.6rem', fontWeight: 900, border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+              HIRE READY
+            </span>
+          )}
+          {candidate.hasVerifiedProof && (
+            <span style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', color: 'var(--accent)', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.6rem', fontWeight: 900, border: '1px solid rgba(59, 130, 246, 0.2)' }}>
+              VERIFIED PROOF
+            </span>
+          )}
+        </div>
+
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', color: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: 600 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
             {candidate.location || 'Remote'}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
             {candidate.experienceLevel || 'Fresher'}
           </div>
         </div>
@@ -125,9 +148,6 @@ export function CandidateCard({ candidate, isSaved, onToggleSave }: CandidateCar
               {skill}
             </span>
           ))}
-          {candidate.skills.length > 3 && (
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: 600 }}>+{candidate.skills.length - 3}</span>
-          )}
         </div>
 
         <div style={{ marginTop: 'auto', display: 'flex', gap: '0.75rem' }}>
