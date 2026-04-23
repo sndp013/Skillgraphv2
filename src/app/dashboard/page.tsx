@@ -11,6 +11,7 @@ import { GrowthTimeline } from '@/components/GrowthTimeline';
 import { AIReviewModal } from '@/components/AIReviewModal';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { RecruiterAnalytics } from '@/components/RecruiterAnalytics';
+import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const { profile, setProfile } = useProfile();
@@ -67,6 +68,53 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+
+        {/* AI Enhanced Identity Section */}
+        {(profile.bio || profile.suggestedRoles) && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{ 
+              backgroundColor: 'rgba(59, 130, 246, 0.03)', 
+              border: '1px solid var(--border)', 
+              borderRadius: '24px', 
+              padding: '2rem', 
+              marginBottom: '3rem',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.5rem'
+            }}
+          >
+            {profile.bio && (
+              <div style={{ position: 'relative' }}>
+                <span style={{ 
+                  position: 'absolute', top: '-0.75rem', left: '1rem', 
+                  backgroundColor: 'var(--accent)', color: 'white', fontSize: '0.6rem', 
+                  fontWeight: 900, padding: '0.2rem 0.6rem', borderRadius: '4px',
+                  textTransform: 'uppercase', letterSpacing: '0.05em'
+                }}>AI Professional Summary</span>
+                <p style={{ fontSize: '1.25rem', fontWeight: 600, margin: 0, lineHeight: 1.5, color: 'var(--foreground)' }}>
+                  "{profile.bio}"
+                </p>
+              </div>
+            )}
+            
+            {profile.suggestedRoles && profile.suggestedRoles.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 700 }}>AI Suggested Targets:</span>
+                <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                  {profile.suggestedRoles.map(role => (
+                    <span key={role} style={{ 
+                      backgroundColor: 'rgba(139, 92, 246, 0.1)', color: '#8b5cf6', 
+                      padding: '0.4rem 0.8rem', borderRadius: '8px', fontSize: '0.75rem', fontWeight: 700,
+                      border: '1px solid rgba(139, 92, 246, 0.2)'
+                    }}>{role}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(320px, 1fr) 2fr', gap: '2rem', marginBottom: '4rem', alignItems: 'start' }} className="animate-fade-in">
           <HireScoreGauge />

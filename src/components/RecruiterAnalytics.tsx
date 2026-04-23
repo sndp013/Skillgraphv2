@@ -8,16 +8,16 @@ export function RecruiterAnalytics() {
   const { profile } = useProfile();
   const { analytics } = profile;
 
-  // Simple SVG Line Chart generator
-  const maxViews = Math.max(...analytics.viewHistory.map(p => p.views));
+  const maxViews = analytics.viewHistory.length > 0 ? Math.max(...analytics.viewHistory.map(p => p.views)) : 0;
   const chartHeight = 100;
   const chartWidth = 300;
-  
-  const points = analytics.viewHistory.map((p, i) => {
+
+  const hasHistory = analytics.viewHistory && analytics.viewHistory.length > 1;
+  const points = hasHistory ? analytics.viewHistory.map((p, i) => {
     const x = (i / (analytics.viewHistory.length - 1)) * chartWidth;
-    const y = chartHeight - (p.views / maxViews) * chartHeight;
+    const y = chartHeight - (p.views / (maxViews || 1)) * chartHeight;
     return `${x},${y}`;
-  }).join(' ');
+  }).join(' ') : `0,${chartHeight} ${chartWidth},${chartHeight}`;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
