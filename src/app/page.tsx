@@ -247,30 +247,57 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Feature Grids (Minimalist) */}
+      {/* How it Works Section */}
       <section style={{ padding: '8rem 0', background: 'var(--card-bg)', borderTop: '1px solid var(--border)' }}>
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '6rem' }}>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>Engineered for builders.</h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Stop writing summaries. Start showing outcomes.</p>
+            <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Your portfolio, ready in 3 minutes.</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>We removed the friction. You just bring the proof.</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '3rem' }}>
-            <div className="card" style={{ padding: '3rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>⚡</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>Instant AI Review</h3>
-              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Our AI rewrites your project descriptions into impact-first metrics that recruiters love.</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '4rem', position: 'relative' }}>
+            
+            {/* Step 1 */}
+            <div style={{ textAlign: 'center', position: 'relative' }}>
+              <div style={{ 
+                width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(59, 130, 246, 0.1)', 
+                color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                margin: '0 auto 2rem', fontSize: '2rem', border: '1px solid rgba(59, 130, 246, 0.2)'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              </div>
+              <div style={{ position: 'absolute', top: '24px', left: 'calc(50% + 50px)', width: '100%', height: '2px', background: 'linear-gradient(to right, var(--border), transparent)', zIndex: 0 }} className="hide-on-mobile"></div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>1. Add Your Work</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Describe your project and the impact it made. No boring summaries required.</p>
             </div>
-            <div className="card" style={{ padding: '3rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>💎</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>Visual Proof Cards</h3>
-              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Attach videos, before/after shots, and live links to prove you actually built what you say.</p>
+
+            {/* Step 2 */}
+            <div style={{ textAlign: 'center', position: 'relative' }}>
+              <div style={{ 
+                width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'rgba(16, 185, 129, 0.1)', 
+                color: 'var(--success)', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                margin: '0 auto 2rem', fontSize: '2rem', border: '1px solid rgba(16, 185, 129, 0.2)'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              </div>
+              <div style={{ position: 'absolute', top: '24px', left: 'calc(50% + 50px)', width: '100%', height: '2px', background: 'linear-gradient(to right, var(--border), transparent)', zIndex: 0 }} className="hide-on-mobile"></div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>2. Upload Proof</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Attach screenshots or videos. Let the visual evidence do the talking for you.</p>
             </div>
-            <div className="card" style={{ padding: '3rem' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>🎯</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>Recruiter discovery</h3>
-              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Get indexed in our global talent hub where 500+ recruiters search by proof, not pedigree.</p>
+
+            {/* Step 3 */}
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ 
+                width: '80px', height: '80px', borderRadius: '24px', backgroundColor: 'white', 
+                color: 'black', display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                margin: '0 auto 2rem', fontSize: '2rem'
+              }}>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+              </div>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>3. Get Your Link</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6 }}>Generate your SkillGraph link and start sending it to recruiters instantly.</p>
             </div>
+
           </div>
         </div>
       </section>
