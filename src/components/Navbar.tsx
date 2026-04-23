@@ -3,13 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { ThemeToggle } from './ThemeToggle';
+import { useProfile } from '@/context/ProfileContext';
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isAuthPage = pathname === '/login' || pathname === '/signup' || pathname === '/onboarding';
+  const { profile } = useProfile();
+  const isAuthPage = pathname === '/login' || pathname === '/signup' || pathname === '/onboarding' || pathname === '/role-selection';
   
   if (isAuthPage) return null;
+
+  const dashboardLink = profile.userRole === 'recruiter' ? '/recruiter/dashboard' : '/dashboard';
+  const hasRole = !!profile.userRole;
 
   return (
     <nav style={{ 
@@ -25,15 +29,14 @@ export default function Navbar() {
         
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <Link href="/dashboard" style={{ color: pathname === '/dashboard' ? 'var(--foreground)' : 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>User Dashboard</Link>
-            <Link href="/recruiter/dashboard" style={{ color: pathname === '/recruiter/dashboard' ? 'var(--foreground)' : 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>Recruiter Hub</Link>
+            {hasRole && (
+              <Link href={dashboardLink} style={{ color: pathname === dashboardLink ? 'var(--foreground)' : 'var(--text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
+                Dashboard
+              </Link>
+            )}
           </div>
 
-          {pathname !== '/' && !pathname.includes('dashboard') && (
-            <Link href="/" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.85rem' }}>Join SkillGraph</Link>
-          )}
-
-          {pathname === '/' && (
+          {pathname === '/' && !hasRole && (
             <>
               <Link href="/login" className="btn-outline" style={{ fontSize: '0.9rem', fontWeight: 500, padding: '0.5rem 1rem' }}>Sign in</Link>
               <Link href="/role-selection" className="btn-accent" style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}>Join now</Link>
