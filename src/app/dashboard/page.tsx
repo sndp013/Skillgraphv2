@@ -69,7 +69,7 @@ export default function Dashboard() {
       candidateScore: profile.score,
       candidateTopProject: topProject ? {
         title: topProject.title,
-        thumbnail: topProject.thumbnail,
+        thumbnail: topProject.mediaUrl,
         outcome: topProject.outcome
       } : undefined,
       pitch: pitch
