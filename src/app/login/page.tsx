@@ -3,13 +3,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useProfile } from '@/context/ProfileContext';
 
 export default function LoginPage() {
+  const { profile } = useProfile();
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push('/dashboard');
+    
+    // Automatic Role-Based Redirection
+    if (profile.userRole === 'recruiter') {
+      router.push('/recruiter/dashboard');
+    } else if (profile.userRole === 'candidate') {
+      router.push('/dashboard');
+    } else {
+      // If no role is found, take them to selection
+      router.push('/role-selection');
+    }
   };
 
   return (

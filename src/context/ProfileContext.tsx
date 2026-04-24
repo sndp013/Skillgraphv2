@@ -145,13 +145,34 @@ export const defaultProfile: UserProfile = {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children }: { children: ReactNode }) {
-  const [profile, setProfile] = useState<UserProfile>(defaultProfile);
+  const [profile, setProfileState] = useState<UserProfile>(defaultProfile);
+
+  // Persistence
+  React.useEffect(() => {
+    const savedProfile = localStorage.getItem('sg_user_profile');
+    if (savedProfile) {
+      try {
+        const parsed = JSON.parse(savedProfile);
+        setProfileState(parsed);
+      } catch (e) {
+        console.error("Failed to parse saved profile", e);
+      }
+    }
+  }, []);
+
+  const setProfile = (value: React.SetStateAction<UserProfile>) => {
+    setProfileState(prev => {
+      const newState = typeof value === 'function' ? value(prev) : value;
+      localStorage.setItem('sg_user_profile', JSON.stringify(newState));
+      return newState;
+    });
+  };
 
   const addProject = (project: Project) => {
     setProfile((prev) => {
       const newProjects = [...prev.projects, project];
       const newSkills = Array.from(new Set([...prev.skills, ...project.techStack]));
-      
+
       const projectsScore = Math.min(40, newProjects.length * 10);
       const outcomeScore = Math.min(30, newProjects.filter(p => p.outcome && p.outcome.length > 10).length * 10);
       const proofScore = Math.min(20, newProjects.filter(p => p.mediaUrl).length * 10);

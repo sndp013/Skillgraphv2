@@ -60,10 +60,10 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
-              <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem', boxShadow: '0 10px 30px var(--accent-glow)' }}>
+              <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem', width: '320px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 Create Portfolio (Candidate)
               </Link>
-              <Link href="/role-selection" className="btn-outline" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem' }}>
+              <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 2.5rem', fontSize: '1.1rem', width: '320px', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 Hire Talent (Recruiter)
               </Link>
             </div>
@@ -469,6 +469,60 @@ export default function Home() {
             <Link href="/role-selection" className="btn-accent" style={{ padding: '1.25rem 3.5rem', fontSize: '1.15rem' }}>
               Build My Profile Now
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Viral Referral Section */}
+      <section style={{ padding: '8rem 0', background: 'var(--card-bg)', borderTop: '1px solid var(--border)' }}>
+        <div className="container" style={{ maxWidth: '1000px' }}>
+          <div style={{ 
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
+            borderRadius: '40px', padding: '4rem', border: '1px solid var(--border)',
+            display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '4rem', alignItems: 'center',
+            position: 'relative', overflow: 'hidden'
+          }}>
+            {/* Decorative background circle */}
+            <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', backgroundColor: 'var(--accent)', filter: 'blur(100px)', opacity: 0.1 }}></div>
+            
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', backgroundColor: 'rgba(255,255,255,0.05)', padding: '0.5rem 1rem', borderRadius: '100px', marginBottom: '1.5rem', border: '1px solid var(--border)' }}>
+                <span style={{ fontSize: '1.2rem' }}>🎁</span>
+                <span style={{ fontSize: '0.85rem', fontWeight: 800, color: 'white' }}>REFERRAL PROGRAM</span>
+              </div>
+              <h2 style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '1.5rem', letterSpacing: '-0.04em' }}>Help friends build proof. <span style={{ color: 'var(--accent)' }}>Get rewards.</span></h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>
+                Invite other builders to SkillGraph. For every friend who verifies their first project, you unlock premium analytics and "Featured" status.
+              </p>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {[
+                  'Invite 3 friends -> Unlock AI Profile Review',
+                  'Invite 10 friends -> "Hire Ready" badge on discovery',
+                  'Invite 25 friends -> Priority access to new freelance gigs'
+                ].map((tier, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--accent)' }}></div>
+                    </div>
+                    <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#eee' }}>{tier}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <div className="card" style={{ padding: '2.5rem', textAlign: 'center', boxShadow: '0 30px 60px rgba(0,0,0,0.3)' }}>
+                <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: '1rem' }}>YOUR REFERRAL LINK</div>
+                <div style={{ padding: '1.25rem', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px dashed var(--accent)', color: 'var(--accent)', fontWeight: 800, fontSize: '1.1rem', marginBottom: '2rem' }}>
+                  skillgraph.io/join/alex88
+                </div>
+                <button className="btn-accent" style={{ width: '100%', padding: '1rem' }}>Copy & Share Link</button>
+                <div style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                  Active Referrals: <span style={{ color: 'white' }}>0 / 3 for next reward</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

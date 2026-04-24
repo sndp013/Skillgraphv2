@@ -15,7 +15,7 @@ export default function RoleSelection() {
     if (role === 'candidate') {
       router.push('/onboarding');
     } else {
-      router.push('/recruiter/dashboard');
+      router.push('/recruiter/onboarding');
     }
   };
 
@@ -71,7 +71,7 @@ export default function RoleSelection() {
             <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '2.5rem' }}>
               I want to discover verified talent and hire based on proof, not resumes.
             </p>
-            <button className="btn-outline" style={{ width: '100%', padding: '1rem' }}>I want to hire talent</button>
+            <button className="btn-accent" style={{ width: '100%', padding: '1rem' }}>I want to hire talent</button>
           </motion.div>
 
         </div>

@@ -1,9 +1,20 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { OnboardingWizard } from '@/components/OnboardingWizard';
+import { useProfile } from '@/context/ProfileContext';
+import { useRouter } from 'next/navigation';
 
 export default function OnboardingPage() {
+  const { profile } = useProfile();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!profile.userRole && typeof window !== 'undefined' && window.location.pathname !== '/') {
+      router.push('/role-selection');
+    }
+  }, [profile.userRole, router]);
+
   return (
     <main className="container spotlight" style={{ minHeight: 'calc(100vh - 70px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '2rem 0' }}>
       <div style={{ textAlign: 'center', marginBottom: '1rem' }} className="animate-fade-in">
